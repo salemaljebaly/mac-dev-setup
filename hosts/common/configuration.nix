@@ -1,17 +1,17 @@
 { config, pkgs, inputs, username, ... }:
 
 {
-  # Auto upgrade nix package and the daemon service
-  services.nix-daemon.enable = true;
+  # Set the primary user for nix-darwin
+  system.primaryUser = username;
   
   # Nix configuration
   nix = {
+    # Enable nix (this replaces services.nix-daemon.enable)
+    enable = true;
+    
     settings = {
       # Enable flakes and new commands
       experimental-features = "nix-command flakes";
-      
-      # Optimize storage
-      auto-optimise-store = true;
       
       # Users allowed to use Nix
       trusted-users = [ "@admin" username ];
@@ -27,6 +27,9 @@
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
     };
+    
+    # Use the new optimise option instead of auto-optimise-store
+    optimise.automatic = true;
     
     # Garbage collection
     gc = {
