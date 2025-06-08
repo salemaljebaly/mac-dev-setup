@@ -155,7 +155,27 @@ print_info "This may take a while on first run..."
 # Always use nix run for reliability
 # This works whether darwin-rebuild is in PATH or not
 print_info "Applying system configuration..."
-nix run nix-darwin -- switch --flake "$REPO_DIR"
+print_info "You will be prompted for your password to make system changes"
+
+# Build and switch to the configuration
+print_info "Building and activating configuration..."
+print_info "This may take a while on first run..."
+print_info "You will be prompted for your password to make system changes"
+
+# The --impure flag allows nix to work with sudo
+nix --extra-experimental-features "nix-command flakes" build "$REPO_DIR#darwinConfigurations.${HOSTNAME}.system"
+
+# Activate using the built result
+if [ -L result ]; then
+    sudo ./result/activate
+    print_success "System configuration activated!"
+else
+    print_error "Build failed - no result symlink found"
+    exit 1
+fi
+
+# Clean up the result symlink
+rm -f result
 
 # Check if darwin-rebuild is now available
 if command -v darwin-rebuild &> /dev/null; then
