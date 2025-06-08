@@ -154,8 +154,21 @@ print_info "This may take a while on first run..."
 
 # First time setup needs special handling
 if ! command -v darwin-rebuild &> /dev/null; then
+    print_info "First time setup - darwin-rebuild not yet in PATH"
     # Use absolute path for flake to work with sudo
     nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake "$REPO_DIR"
+    
+    # After first run, we need to ensure PATH is updated
+    # needs some fixes
+    if [ -f /etc/static/bashrc ]; then
+        source /etc/static/bashrc
+    fi
+    if [ -f /etc/static/zshrc ]; then
+        source /etc/static/zshrc
+    fi
+    
+    # Also update current shell PATH
+    export PATH="/run/current-system/sw/bin:$PATH"
 else
     # For subsequent runs, use darwin-rebuild directly
     darwin-rebuild switch --flake "$REPO_DIR"

@@ -1,6 +1,6 @@
 # Mac Development Environment with Nix
 
-A comprehensive, reproducible macOS development environment using Nix, nix-darwin, and home-manager. Perfect for developers and CTOs who want a declarative, version-controlled system configuration.
+A comprehensive, reproducible macOS development environment using Nix, nix-darwin, and home-manager. Perfect for developers who want a declarative, version-controlled system configuration.
 
 ## 🚀 Quick Start
 
@@ -146,6 +146,13 @@ darwin-rebuild switch --rollback
 6. **Can't find applications**
    - GUI apps are in `/Applications/Nix Apps/`
    - Add to Spotlight: System Preferences > Spotlight > Privacy
+
+7. **"darwin-rebuild: command not found" after installation**
+   - This happens on first install before PATH is updated
+   - Solution 1: Open a new terminal window
+   - Solution 2: Run `source /etc/static/zshrc` (or bashrc)
+   - Solution 3: Run `./activate.sh` from the repository
+   - Solution 4: Use full path: `/run/current-system/sw/bin/darwin-rebuild`
 
 ### Reset Everything
 
