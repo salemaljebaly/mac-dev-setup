@@ -124,15 +124,26 @@ darwin-rebuild switch --rollback
 ### Common Issues
 
 1. **"error: experimental Nix feature 'nix-command' is disabled"**
-   - Run: `echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf`
+   - This happens when using sudo with Nix commands
+   - Solution: Use `nix --extra-experimental-features "nix-command flakes" run ...`
+   - Or ensure `/etc/nix/nix.conf` contains `experimental-features = nix-command flakes`
 
-2. **Homebrew casks fail to install**
+2. **"system activation must now be run as root"**
+   - `darwin-rebuild` requires sudo privileges
+   - The installer handles this automatically
+   - For manual runs: darwin-rebuild will prompt for sudo
+
+3. **"$HOME is not owned by you" when using sudo**
+   - This is normal when sudo changes to root user
+   - Use absolute paths instead of relative paths with sudo
+
+4. **Homebrew casks fail to install**
    - Ensure Xcode Command Line Tools are installed: `xcode-select --install`
 
-3. **Permission denied errors**
+5. **Permission denied errors**
    - Some apps need manual permission grants in System Preferences > Security & Privacy
 
-4. **Can't find applications**
+6. **Can't find applications**
    - GUI apps are in `/Applications/Nix Apps/`
    - Add to Spotlight: System Preferences > Spotlight > Privacy
 
