@@ -63,14 +63,52 @@ fi
 # Install Nix if not present
 if ! command -v nix &> /dev/null; then
     print_info "Installing Nix..."
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+    
+    # Check if there's a broken installation
+    if [ -f "/nix/receipt.json" ]; then
+        print_error "Found incomplete Nix installation"
+        print_info "Run '/nix/nix-installer uninstall' first, then re-run this script"
+        exit 1
+    fi
+    
+    # Use the official Nix installer
+    # The official installer is maintained by the Nix community
+    sh <(curl -L https://nixos.org/nix/install) --daemon
     
     # Source Nix
     if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
         . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
     fi
+    
+    # Enable experimental features for flakes
+    print_info "Configuring Nix with flakes support..."
+    mkdir -p ~/.config/nix
+    echo "experimental-features = nix-command flakes" > ~/.config/nix/nix.conf
+    
+    # Also add to system config
+    if [ -f /etc/nix/nix.conf ]; then
+        if ! grep -q "experimental-features" /etc/nix/nix.conf; then
+            echo "experimental-features = nix-command flakes" | sudo tee -a /etc/nix/nix.conf > /dev/null
+        fi
+    fi
 else
-    print_success "Nix already installed"
+    print_success "Nix already installed (version: $(nix --version))"
+    
+    # Ensure Nix is available in current shell
+    if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+        . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+    fi
+    
+    # Enable flakes if not already enabled
+    if ! nix show-config 2>/dev/null | grep -q "experimental-features.*flakes"; then
+        print_info "Enabling Nix flakes..."
+        mkdir -p ~/.config/nix
+        if ! grep -q "experimental-features" ~/.config/nix/nix.conf 2>/dev/null; then
+            echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+        fi
+    else
+        print_success "Nix flakes already enabled"
+    fi
 fi
 
 # Clone or update repository
