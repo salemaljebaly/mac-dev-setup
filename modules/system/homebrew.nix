@@ -13,12 +13,8 @@
       upgrade = true;
     };
     
-    # Taps
-    taps = [
-      "homebrew/cask"
-      "homebrew/core"
-      "homebrew/services"
-    ];
+    # No taps needed - all are built-in now
+    taps = [];
     
     # Packages from Homebrew
     brews = [
