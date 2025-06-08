@@ -1,0 +1,24 @@
+# Nix
+result
+result-*
+
+# macOS
+.DS_Store
+
+# Flake lock (will be generated)
+# Comment out if you want to track it
+# flake.lock
+
+# Personal configurations
+hosts/*/
+!hosts/default/
+!hosts/common/
+home/*/
+!home/default/
+!home/common/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
