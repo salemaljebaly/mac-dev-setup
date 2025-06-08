@@ -5,7 +5,7 @@
   system.defaults = {
     # Dock
     dock = {
-      autohide = true;
+      autohide = false;
       autohide-delay = 0.0;
       autohide-time-modifier = 0.5;
       expose-animation-duration = 0.1;

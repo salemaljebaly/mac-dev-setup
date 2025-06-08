@@ -4,40 +4,42 @@
   # VS Code
   programs.vscode = {
     enable = true;
-    extensions = with pkgs.vscode-extensions; [
-      # Nix
-      bbenoist.nix
+    profiles.default = {
+      extensions = with pkgs.vscode-extensions; [
+        # Nix
+        bbenoist.nix
+        
+        # General development
+        eamodio.gitlens
+        ms-vscode-remote.remote-ssh
+        ms-azuretools.vscode-docker
+        
+        # Languages
+        ms-python.python
+        golang.go
+        rust-lang.rust-analyzer
+        
+        # Formatting
+        esbenp.prettier-vscode
+        
+        # Themes
+        dracula-theme.theme-dracula
+      ];
       
-      # General development
-      eamodio.gitlens
-      ms-vscode-remote.remote-ssh
-      ms-azuretools.vscode-docker
-      
-      # Languages
-      ms-python.python
-      golang.go
-      rust-lang.rust-analyzer
-      
-      # Formatting
-      esbenp.prettier-vscode
-      
-      # Themes
-      dracula-theme.theme-dracula
-    ];
-    
-    userSettings = {
-      "editor.fontSize" = 14;
-      "editor.fontFamily" = "'JetBrains Mono', 'Courier New', monospace";
-      "editor.fontLigatures" = true;
-      "editor.formatOnSave" = true;
-      "editor.minimap.enabled" = false;
-      "editor.renderWhitespace" = "selection";
-      "editor.tabSize" = 2;
-      "files.autoSave" = "afterDelay";
-      "files.trimTrailingWhitespace" = true;
-      "terminal.integrated.fontSize" = 13;
-      "workbench.colorTheme" = "Dracula";
-      "workbench.startupEditor" = "none";
+      userSettings = {
+        "editor.fontSize" = 14;
+        "editor.fontFamily" = "'JetBrains Mono', 'Courier New', monospace";
+        "editor.fontLigatures" = true;
+        "editor.formatOnSave" = true;
+        "editor.minimap.enabled" = false;
+        "editor.renderWhitespace" = "selection";
+        "editor.tabSize" = 2;
+        "files.autoSave" = "afterDelay";
+        "files.trimTrailingWhitespace" = true;
+        "terminal.integrated.fontSize" = 13;
+        "workbench.colorTheme" = "Dracula";
+        "workbench.startupEditor" = "none";
+      };
     };
   };
   
