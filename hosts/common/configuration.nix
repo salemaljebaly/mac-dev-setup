@@ -4,6 +4,9 @@
   # Set the primary user for nix-darwin
   system.primaryUser = username;
   
+  # Fix the nixbld group ID to match the actual system
+  ids.gids.nixbld = 350;
+  
   # Nix configuration
   nix = {
     # Enable nix (this replaces services.nix-daemon.enable)
