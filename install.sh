@@ -148,30 +148,6 @@ sed -i '' "s/YOUR_USERNAME/$USERNAME/g" flake.nix
 sed -i '' "s/YOUR_HOSTNAME/$HOSTNAME/g" flake.nix
 sed -i '' "s/aarch64-darwin/$SYSTEM/g" flake.nix
 
-# Backup existing configurations
-# Note: nix-darwin will create /etc/bashrc and /etc/zshrc
-# These might not exist on a fresh system, but could exist from previous installs
-if [ -f /etc/bashrc ]; then
-    print_info "Backing up existing /etc/bashrc..."
-    sudo mv /etc/bashrc /etc/bashrc.backup-before-nix-darwin
-fi
-
-if [ -f /etc/zshrc ]; then
-    print_info "Backing up existing /etc/zshrc..."
-    sudo mv /etc/zshrc /etc/zshrc.backup-before-nix-darwin
-fi
-
-# Also backup user shell configs if they exist
-if [ -f "$HOME/.zshrc" ]; then
-    print_info "Backing up ~/.zshrc..."
-    cp "$HOME/.zshrc" "$HOME/.zshrc.backup-before-nix-darwin"
-fi
-
-if [ -f "$HOME/.bashrc" ]; then
-    print_info "Backing up ~/.bashrc..."
-    cp "$HOME/.bashrc" "$HOME/.bashrc.backup-before-nix-darwin"
-fi
-
 # Build and switch to the configuration
 print_info "Building and activating configuration..."
 print_info "This may take a while on first run..."
