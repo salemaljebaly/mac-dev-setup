@@ -1,4 +1,4 @@
- config, pkgs, username, ... }:
+{ config, pkgs, username, ... }:
 
 {
   # Hostname configuration
