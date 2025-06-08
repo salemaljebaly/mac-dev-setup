@@ -80,12 +80,14 @@ masApps = {
 ### Rebuilding After Changes
 
 ```bash
-# Apply system changes
+# Apply system changes (will ask for sudo password)
 darwin-rebuild switch --flake .
 
-# Or use the helper alias
+# Or use the helper alias (after first installation)
 rebuild
 ```
+
+**Note**: `darwin-rebuild` requires sudo privileges to modify system configurations. It will prompt for your password.
 
 ## 🧪 Testing Your Configuration
 

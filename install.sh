@@ -154,9 +154,11 @@ print_info "This may take a while on first run..."
 
 # First time setup needs special handling
 if ! command -v darwin-rebuild &> /dev/null; then
-    nix run nix-darwin -- switch --flake .
+    # Use absolute path for flake to work with sudo
+    nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake "$REPO_DIR"
 else
-    darwin-rebuild switch --flake .
+    # For subsequent runs, use darwin-rebuild directly
+    darwin-rebuild switch --flake "$REPO_DIR"
 fi
 
 print_success "Installation complete! 🎉"
