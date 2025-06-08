@@ -22,9 +22,9 @@
       gp = "git push";
       gl = "git log --oneline --graph";
       
-      # Nix
-      rebuild = "darwin-rebuild switch --flake ~/.config/nix-config";
-      update = "cd ~/.config/nix-config && nix flake update && rebuild";
+      # Nix - using absolute path for flake
+      rebuild = "darwin-rebuild switch --flake $HOME/.config/nix-config";
+      update = "cd $HOME/.config/nix-config && nix flake update && darwin-rebuild switch --flake $HOME/.config/nix-config";
       cleanup = "nix-collect-garbage -d";
       
       # Docker
