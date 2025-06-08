@@ -43,11 +43,11 @@
       # Utilities
       "localsend"
       "bitwarden"
+      "whatsapp"
     ];
     
     # App Store Applications
-    masApps = {
-      "WhatsApp Messenger" = 310633997;
-    };
+    # ignore mas cuz has some issue with OS
+    masApps = {};
   };
 }
