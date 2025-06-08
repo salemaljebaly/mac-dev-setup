@@ -22,10 +22,13 @@
       gp = "git push";
       gl = "git log --oneline --graph";
       
-      # Nix - using absolute path for flake
-      rebuild = "darwin-rebuild switch --flake $HOME/.config/nix-config";
-      update = "cd $HOME/.config/nix-config && nix flake update && darwin-rebuild switch --flake $HOME/.config/nix-config";
+      # Nix - using nix run for reliability
+      rebuild = "nix run nix-darwin -- switch --flake $HOME/.config/nix-config";
+      update = "cd $HOME/.config/nix-config && nix flake update && nix run nix-darwin -- switch --flake $HOME/.config/nix-config";
       cleanup = "nix-collect-garbage -d";
+      
+      # Alternative if darwin-rebuild is in PATH
+      rebuild-direct = "darwin-rebuild switch --flake $HOME/.config/nix-config";
       
       # Docker
       d = "docker";
@@ -37,6 +40,7 @@
       grep = "rg";
       vim = "nvim";
     };
+
     
     initExtra = ''
       # Custom prompt

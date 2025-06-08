@@ -152,26 +152,16 @@ sed -i '' "s/aarch64-darwin/$SYSTEM/g" flake.nix
 print_info "Building and activating configuration..."
 print_info "This may take a while on first run..."
 
-# First time setup needs special handling
-if ! command -v darwin-rebuild &> /dev/null; then
-    print_info "First time setup - darwin-rebuild not yet in PATH"
-    # Use absolute path for flake to work with sudo
-    nix --extra-experimental-features "nix-command flakes" run nix-darwin -- switch --flake "$REPO_DIR"
-    
-    # After first run, we need to ensure PATH is updated
-    # needs some fixes
-    if [ -f /etc/static/bashrc ]; then
-        source /etc/static/bashrc
-    fi
-    if [ -f /etc/static/zshrc ]; then
-        source /etc/static/zshrc
-    fi
-    
-    # Also update current shell PATH
-    export PATH="/run/current-system/sw/bin:$PATH"
+# Always use nix run for reliability
+# This works whether darwin-rebuild is in PATH or not
+print_info "Applying system configuration..."
+nix run nix-darwin -- switch --flake "$REPO_DIR"
+
+# Check if darwin-rebuild is now available
+if command -v darwin-rebuild &> /dev/null; then
+    print_success "darwin-rebuild is now available in PATH"
 else
-    # For subsequent runs, use darwin-rebuild directly
-    darwin-rebuild switch --flake "$REPO_DIR"
+    print_info "Note: darwin-rebuild may not be in PATH until you open a new terminal"
 fi
 
 print_success "Installation complete! 🎉"
