@@ -7,14 +7,14 @@ A comprehensive, reproducible macOS development environment using Nix, nix-darwi
 ### One-Line Installation
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/mac-dev-setup/main/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/salemaljebaly/mac-dev-setup/main/install.sh)"
 ```
 
 ### Manual Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/mac-dev-setup.git ~/.config/nix-config
+git clone https://github.com/salemaljebaly/mac-dev-setup.git ~/.config/nix-config
 cd ~/.config/nix-config
 
 # Run the installer
