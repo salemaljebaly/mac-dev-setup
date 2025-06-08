@@ -71,9 +71,10 @@ if ! command -v nix &> /dev/null; then
         exit 1
     fi
     
-    # Use the official Nix installer
-    # The official installer is maintained by the Nix community
-    sh <(curl -L https://nixos.org/nix/install) --daemon
+    # Use the official Nix installer with daemon mode (required for macOS)
+    # The installer will handle all backups and system modifications
+    print_info "The Nix installer will ask for your sudo password and show what it's doing"
+    curl -L https://nixos.org/nix/install | sh -s -- --daemon
     
     # Source Nix
     if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
@@ -115,7 +116,7 @@ fi
 REPO_DIR="$HOME/.config/nix-config"
 if [ ! -d "$REPO_DIR" ]; then
     print_info "Cloning configuration repository..."
-    git clone https://github.com/YOUR_USERNAME/mac-dev-setup.git "$REPO_DIR"
+    git clone https://github.com/salemaljebaly/mac-dev-setup.git "$REPO_DIR"
 else
     print_info "Repository already exists, pulling latest changes..."
     cd "$REPO_DIR" && git pull
