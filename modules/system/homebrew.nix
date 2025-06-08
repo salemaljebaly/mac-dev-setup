@@ -47,7 +47,7 @@
     
     # App Store Applications
     masApps = {
-      # "Xcode" = 497799835;
+      "WhatsApp Messenger" = 310633997;
     };
   };
 }
