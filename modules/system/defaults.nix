@@ -16,7 +16,7 @@
       static-only = false;
       tilesize = 48;
     };
-    
+
     # Finder
     finder = {
       AppleShowAllExtensions = true;
@@ -28,7 +28,7 @@
       ShowPathbar = true;
       ShowStatusBar = true;
     };
-    
+
     # Global macOS settings
     NSGlobalDomain = {
       AppleInterfaceStyle = "Dark";
@@ -46,19 +46,19 @@
       NSNavPanelExpandedStateForSaveMode = true;
       NSNavPanelExpandedStateForSaveMode2 = true;
     };
-    
+
     # Trackpad
     trackpad = {
       Clicking = true;
       TrackpadRightClick = true;
       TrackpadThreeFingerDrag = true;
     };
-    
+
     # Other settings
     screencapture.location = "~/Pictures/Screenshots";
     screensaver.askForPasswordDelay = 0;
   };
-  
+
   # Keyboard settings
   system.keyboard = {
     enableKeyMapping = true;

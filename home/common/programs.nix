@@ -8,24 +8,24 @@
       extensions = with pkgs.vscode-extensions; [
         # Nix
         bbenoist.nix
-        
+
         # General development
         eamodio.gitlens
         ms-vscode-remote.remote-ssh
         ms-azuretools.vscode-docker
-        
+
         # Languages
         ms-python.python
         golang.go
         rust-lang.rust-analyzer
-        
+
         # Formatting
         esbenp.prettier-vscode
-        
+
         # Themes
         dracula-theme.theme-dracula
       ];
-      
+
       userSettings = {
         "editor.fontSize" = 14;
         "editor.fontFamily" = "'JetBrains Mono', 'Courier New', monospace";
@@ -42,34 +42,34 @@
       };
     };
   };
-  
+
   # Git
   programs.git = {
     enable = true;
     delta.enable = true;
-    
+
     userEmail = "your.email@example.com"; # TODO: Update
     userName = "Your Name"; # TODO: Update
-    
+
     extraConfig = {
       init.defaultBranch = "main";
       push.autoSetupRemote = true;
       pull.rebase = false;
-      
+
       core = {
         editor = "nvim";
         whitespace = "trailing-space,space-before-tab";
       };
-      
+
       diff = {
         colorMoved = "default";
       };
-      
+
       merge = {
         conflictstyle = "diff3";
       };
     };
-    
+
     aliases = {
       st = "status -s";
       co = "checkout";
@@ -79,7 +79,7 @@
       last = "log -1 HEAD";
       visual = "!gitk";
     };
-    
+
     ignores = [
       ".DS_Store"
       "*.swp"
@@ -89,13 +89,13 @@
       ".env.local"
     ];
   };
-  
+
   # Direnv
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
   };
-  
+
   # SSH
   programs.ssh = {
     enable = true;
