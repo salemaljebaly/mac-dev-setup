@@ -1,11 +1,10 @@
-{ config, ... }:
-
+_:
 {
   # macOS system defaults
   system.defaults = {
     # Dock
     dock = {
-      autohide = false;
+      autohide = true;
       autohide-delay = 0.0;
       autohide-time-modifier = 0.5;
       expose-animation-duration = 0.1;

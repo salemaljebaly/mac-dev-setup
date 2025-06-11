@@ -1,21 +1,33 @@
 {
-  config,
   pkgs,
   inputs,
   username,
   ...
 }:
 
+let
+  # Try to detect the nixbld GID
+  nixbldGid = 350; # Default value for modern Nix installations
+in
 {
-  # Set the primary user for nix-darwin
-  system.primaryUser = username;
+  # System configuration
+  system = {
+    # Set the primary user for nix-darwin
+    primaryUser = username;
+
+    # Set Git commit hash for darwin-version
+    configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
+
+    # Used for backwards compatibility
+    stateVersion = 4;
+  };
 
   # Fix the nixbld group ID to match the actual system
-  ids.gids.nixbld = 350;
+  ids.gids.nixbld = nixbldGid;
 
   # Nix configuration
   nix = {
-    # Enable nix (this replaces services.nix-daemon.enable)
+    # Enable nix
     enable = true;
 
     settings = {
@@ -40,7 +52,7 @@
       ];
     };
 
-    # Use the new optimise option instead of auto-optimise-store
+    # Use the new optimise option
     optimise.automatic = true;
 
     # Garbage collection
@@ -53,14 +65,8 @@
     };
   };
 
-  # Set Git commit hash for darwin-version
-  system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
-
-  # Used for backwards compatibility
-  system.stateVersion = 4;
-
   # The platform the configuration will be used on
-  nixpkgs.hostPlatform = "aarch64-darwin"; # Updated by install script
+  nixpkgs.hostPlatform = "aarch64-darwin";
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

@@ -1,14 +1,18 @@
-{ config, ... }:
+_:
 
 {
   # Homebrew configuration
   homebrew = {
     enable = true;
 
+    # Prevent auto-update during builds (faster)
+    global = {
+      autoUpdate = false; # We update manually with onActivation
+    };
+
     # Auto update on rebuild
     onActivation = {
       autoUpdate = true;
-      # todo: needs to check
       cleanup = "zap"; # Remove unlisted packages
       upgrade = true;
     };
@@ -36,18 +40,26 @@
       # Design
       "figma"
 
+      # Security
+      "bitwarden"
+
       # VPN
       "protonvpn"
       "cloudflare-warp"
 
       # Utilities
       "localsend"
-      "bitwarden"
-      "whatsapp"
     ];
 
     # App Store Applications
-    # ignore mas cuz has some issue with OS
-    masApps = { };
+    masApps = {
+      # "Xcode" = 497799835; # Commented out due to Apple ID issues
+    };
+  };
+
+  # Set environment variables to reduce Homebrew noise
+  environment.variables = {
+    HOMEBREW_NO_AUTO_UPDATE = "1";
+    HOMEBREW_NO_ENV_HINTS = "1";
   };
 }
