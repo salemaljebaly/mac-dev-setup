@@ -5,20 +5,32 @@ result-*
 # macOS
 .DS_Store
 
-# Flake lock (will be generated)
-# Comment out if you want to track it
+# Flake lock (uncomment if you want to track it)
 # flake.lock
 
 # Personal configurations
-hosts/*/
-!hosts/default/
-!hosts/common/
-home/*/
-!home/default/
-!home/common/
+/hosts/*/
+!/hosts/default/
+!/hosts/common/
+/home/*/
+!/home/default/
+!/home/common/
+
+# Temporary/backup files
+*.backup-before-nix-darwin
+*.swp
+*.swo
+*~
 
 # Editor
 .vscode/
 .idea/
-*.swp
-*.swo
+
+# Development
+.direnv/
+.devenv/
+.pre-commit-config.yaml
+
+# Local notes
+TODO.md
+NOTES.md

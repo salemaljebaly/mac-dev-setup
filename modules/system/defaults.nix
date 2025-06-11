@@ -1,11 +1,10 @@
-{ config, ... }:
-
+_:
 {
   # macOS system defaults
   system.defaults = {
     # Dock
     dock = {
-      autohide = false;
+      autohide = true;
       autohide-delay = 0.0;
       autohide-time-modifier = 0.5;
       expose-animation-duration = 0.1;
@@ -16,7 +15,7 @@
       static-only = false;
       tilesize = 48;
     };
-    
+
     # Finder
     finder = {
       AppleShowAllExtensions = true;
@@ -28,7 +27,7 @@
       ShowPathbar = true;
       ShowStatusBar = true;
     };
-    
+
     # Global macOS settings
     NSGlobalDomain = {
       AppleInterfaceStyle = "Dark";
@@ -46,19 +45,19 @@
       NSNavPanelExpandedStateForSaveMode = true;
       NSNavPanelExpandedStateForSaveMode2 = true;
     };
-    
+
     # Trackpad
     trackpad = {
       Clicking = true;
       TrackpadRightClick = true;
       TrackpadThreeFingerDrag = true;
     };
-    
+
     # Other settings
     screencapture.location = "~/Pictures/Screenshots";
     screensaver.askForPasswordDelay = 0;
   };
-  
+
   # Keyboard settings
   system.keyboard = {
     enableKeyMapping = true;

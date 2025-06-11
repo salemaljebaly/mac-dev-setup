@@ -1,11 +1,13 @@
-{ config, pkgs, username, ... }:
+{ username, ... }:
 
 {
   # Hostname configuration
-  networking.computerName = "MacBook Pro";
-  networking.hostName = "macbook-pro";
-  networking.localHostName = "macbook-pro";
-  
+  networking = {
+    computerName = "MacBook Pro";
+    hostName = "macbook-pro";
+    localHostName = "macbook-pro";
+  };
+
   # User configuration
   users.users.${username} = {
     name = username;
