@@ -81,6 +81,7 @@ masApps = {
 
 ```bash
 # Apply system changes (recommended method)
+# if command not work, just run with sudo privileges
 nix run nix-darwin -- switch --flake .
 
 # Or use the helper alias (after first installation)
