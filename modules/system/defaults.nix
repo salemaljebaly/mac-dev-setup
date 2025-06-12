@@ -1,5 +1,4 @@
-_:
-{
+_: {
   # macOS system defaults
   system.defaults = {
     # Dock

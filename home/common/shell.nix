@@ -40,6 +40,11 @@
         find = "fd";
         grep = "rg";
         vim = "nvim";
+
+        # Development - use silent make
+        fmt = "make -s format";
+        lint = "make -s lint";
+        test = "make -s test";
       };
 
       # Changed from initExtra to initContent

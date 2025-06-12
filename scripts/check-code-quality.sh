@@ -11,38 +11,32 @@ NC='\033[0m' # No Color
 echo -e "${BLUE}🔍 Running comprehensive code quality checks...${NC}"
 echo ""
 
-# Function to check if command exists
-command_exists() {
-    command -v "$1" >/dev/null 2>&1
-}
+# Find all Nix files
+NIX_FILES=$(find . -name "*.nix" -type f ! -path "./result*" ! -path "./.git/*" 2>/dev/null)
+FILE_COUNT=$(echo "$NIX_FILES" | wc -l | tr -d ' ')
 
-# Check for required tools
-MISSING_TOOLS=()
-for tool in nixfmt statix deadnix; do
-    if ! command_exists "$tool"; then
-        MISSING_TOOLS+=("$tool")
-    fi
-done
-
-if [ ${#MISSING_TOOLS[@]} -ne 0 ]; then
-    echo -e "${YELLOW}⚠️  Missing tools: ${MISSING_TOOLS[*]}${NC}"
-    echo "Run 'nix develop' to enter development shell with all tools."
-    exit 1
-fi
+echo "Found $FILE_COUNT Nix files to check"
+echo ""
 
 # Format check
 echo -e "${BLUE}1. Checking formatting...${NC}"
-if find . -name "*.nix" -type f -not -path "./result/*" -exec nixfmt --check {} \; > /dev/null 2>&1; then
-    echo -e "${GREEN}   ✅ Format check passed${NC}"
+FAILED=0
+for file in $NIX_FILES; do
+    if ! nixfmt --check "$file" >/dev/null 2>&1; then
+        echo -e "${RED}   ❌ $file needs formatting${NC}"
+        FAILED=1
+    fi
+done
+
+if [ $FAILED -eq 0 ]; then
+    echo -e "${GREEN}   ✅ All files properly formatted${NC}"
 else
-    echo -e "${RED}   ❌ Format check failed${NC}"
-    echo "   Run 'make format' to fix"
-    exit 1
+    echo -e "${RED}   Run 'make format' to fix formatting${NC}"
 fi
 
 # Statix check
 echo -e "${BLUE}2. Running statix...${NC}"
-if statix check . > /dev/null 2>&1; then
+if statix check . >/dev/null 2>&1; then
     echo -e "${GREEN}   ✅ Statix check passed${NC}"
 else
     echo -e "${YELLOW}   ⚠️  Statix found issues${NC}"
@@ -61,7 +55,7 @@ fi
 
 # Flake check
 echo -e "${BLUE}4. Checking flake...${NC}"
-if nix flake check --no-build > /dev/null 2>&1; then
+if nix flake check --no-build >/dev/null 2>&1; then
     echo -e "${GREEN}   ✅ Flake check passed${NC}"
 else
     echo -e "${RED}   ❌ Flake check failed${NC}"
@@ -70,4 +64,9 @@ else
 fi
 
 echo ""
-echo -e "${GREEN}✅ All checks completed!${NC}"
+if [ $FAILED -eq 0 ]; then
+    echo -e "${GREEN}✅ All checks completed successfully!${NC}"
+else
+    echo -e "${RED}❌ Some checks failed!${NC}"
+    exit 1
+fi

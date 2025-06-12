@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check:
+    name: Format and Quality Check
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install and Setup Nix
+      run: |
+        # Install Nix
+        curl -L https://nixos.org/nix/install | sh -s -- --daemon
+        
+        # Add Nix to PATH for subsequent steps
+        echo "/nix/var/nix/profiles/default/bin" >> $GITHUB_PATH
+        echo "/nix/var/nix/profiles/per-user/$USER/profile/bin" >> $GITHUB_PATH
+        
+        # Configure Nix
+        mkdir -p ~/.config/nix
+        echo "experimental-features = nix-command flakes" > ~/.config/nix/nix.conf
+    
+    - name: Run all checks
+      run: |
+        # Enter dev shell and run checks
+        nix develop --command bash -c "
+          echo '🔍 Running format check...'
+          make format-check
+          
+          echo '🔍 Running linters...'
+          make lint
+          
+          echo '🔍 Running flake check...'
+          make check
+        "
