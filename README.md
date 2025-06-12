@@ -92,7 +92,7 @@ masApps = {
 # Apply system changes (recommended method)
 # if command not work, just run with sudo privileges
 nix run nix-darwin -- switch --flake .
-
+```
 **Note**: `darwin-rebuild` requires sudo privileges to modify system configurations. It will prompt for your password.
 
 ## 🧪 Testing Your Configuration
