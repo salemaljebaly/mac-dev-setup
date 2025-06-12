@@ -2,7 +2,7 @@ name: CI
 
 on:
   pull_request:
-    branches: [ nix-formatting-and-testing ]
+    branches: [ main ]
 
 jobs:
   check:
