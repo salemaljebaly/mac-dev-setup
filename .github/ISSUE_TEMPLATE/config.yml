@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a Question
+    url: https://github.com/salemaljebaly/mac-dev-setup/discussions
+    about: Ask questions and discuss with the community
+  - name: Documentation
+    url: https://github.com/salemaljebaly/mac-dev-setup#readme
+    about: Check if your question is answered in docs
