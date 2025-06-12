@@ -1,9 +1,12 @@
 # Makefile for Nix development tasks
 
-.PHONY: format lint check test clean help install-hooks
+.PHONY: format lint check test clean help install-hooks format-check
 
 # Default target
 .DEFAULT_GOAL := help
+
+# Variables
+NIX_FILES := $(shell find . -name "*.nix" -type f ! -path "./result*" ! -path "./.git/*" 2>/dev/null)
 
 help: ## Show this help
 	@echo "Available targets:"
@@ -11,13 +14,27 @@ help: ## Show this help
 
 format: ## Format all Nix files
 	@echo "🎨 Formatting Nix files..."
-	@find . -name "*.nix" -type f -not -path "./result/*" -exec nixfmt {} \;
+	@echo "Found $(words $(NIX_FILES)) Nix files"
+	@for file in $(NIX_FILES); do \
+		echo "  Formatting: $$file"; \
+		nixfmt "$$file" || exit 1; \
+	done
 	@echo "✅ Formatting complete!"
 
 format-check: ## Check formatting without changing files
 	@echo "🔍 Checking formatting..."
-	@find . -name "*.nix" -type f -not -path "./result/*" -exec nixfmt --check {} \; || (echo "❌ Formatting issues found. Run 'make format' to fix." && exit 1)
-	@echo "✅ Formatting check passed!"
+	@FAILED=0; \
+	for file in $(NIX_FILES); do \
+		nixfmt --check "$$file" 2>/dev/null || { \
+			echo "  ❌ $$file needs formatting"; \
+			FAILED=1; \
+		}; \
+	done; \
+	if [ $$FAILED -eq 1 ]; then \
+		echo "❌ Formatting issues found. Run 'make format' to fix."; \
+		exit 1; \
+	fi
+	@echo "✅ All files properly formatted!"
 
 lint-statix: ## Run statix linter
 	@echo "🔍 Running statix..."
@@ -59,17 +76,14 @@ update: ## Update flake inputs
 	@nix flake update
 	@echo "✅ Update complete!"
 
-build: ## Build the system configuration
-	@echo "🔨 Building configuration..."
-	@nix build .#darwinConfigurations.$(shell hostname | tr '[:upper:]' '[:lower:]').system
-	@echo "✅ Build complete!"
-
-switch: ## Switch to the new configuration
-	@echo "🚀 Switching configuration..."
-	@nix run nix-darwin -- switch --flake .
-	@echo "✅ Switch complete!"
-
-# Show what would change without applying
 dry-run: ## Show what would change without applying
 	@echo "👀 Dry run..."
 	@nix run nix-darwin -- switch --flake . --dry-run
+
+# Debug command to show which files will be formatted
+show-files: ## Show all Nix files that would be formatted
+	@echo "Nix files found:"
+	@for file in $(NIX_FILES); do \
+		echo "  $$file"; \
+	done
+	@echo "Total: $(words $(NIX_FILES)) files"
