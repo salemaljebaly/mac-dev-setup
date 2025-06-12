@@ -93,20 +93,13 @@ masApps = {
 # if command not work, just run with sudo privileges
 nix run nix-darwin -- switch --flake .
 
-# Or use the helper alias (after first installation)
-rebuild
-
-# If darwin-rebuild is in your PATH (after restarting terminal)
-darwin-rebuild switch --flake .
-```
-
 **Note**: `darwin-rebuild` requires sudo privileges to modify system configurations. It will prompt for your password.
 
 ## 🧪 Testing Your Configuration
 
 ### Dry Run
 ```bash
-darwin-rebuild switch --dry-run --flake .
+nix run nix-darwin -- switch --dry-run --flake .
 ```
 
 ### Check Configuration
@@ -116,12 +109,12 @@ nix flake check
 
 ### List Generations
 ```bash
-darwin-rebuild --list-generations
+nix run nix-darwin -- --list-generations
 ```
 
 ### Rollback
 ```bash
-darwin-rebuild switch --rollback
+nix run nix-darwin -- switch --rollback
 ```
 
 ## 📁 Directory Structure
@@ -130,7 +123,6 @@ darwin-rebuild switch --rollback
 - `hosts/` - Machine-specific configurations
 - `home/` - User environment configurations
 - `modules/` - Reusable configuration modules
-- `lib/` - Helper functions and utilities
 
 ## 🔧 Troubleshooting
 
