@@ -39,11 +39,6 @@
     httpie
     mtr
 
-    # Security
-    gnupg
-    openssh
-    wireguard-tools
-
     # Archive tools
     zip
     unzip
